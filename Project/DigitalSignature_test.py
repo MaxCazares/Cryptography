@@ -18,9 +18,5 @@ def Chief():
     else:
         print('Las calificaciones SI sufrieron modificaciones')
 
-# Professor()
-# Chief()
-
-# a = Hash256(GetBytesFromFile('Mixcolumn.xlsx'))
-# print(a)
-# print(type(a))
+Professor()
+Chief()
