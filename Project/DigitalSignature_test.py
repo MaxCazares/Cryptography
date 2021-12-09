@@ -1,10 +1,4 @@
 from DigitalSignature import *
-from Crypto.Hash import SHA256
-
-def Hash256(data):
-    h = SHA256.new()
-    h.update(data)
-    return h.digest()
 
 # Parte del profesor
 def Professor():
@@ -25,4 +19,8 @@ def Chief():
         print('Las calificaciones SI sufrieron modificaciones')
 
 # Professor()
-Chief()
+# Chief()
+
+# a = Hash256(GetBytesFromFile('Mixcolumn.xlsx'))
+# print(a)
+# print(type(a))

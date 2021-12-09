@@ -11,7 +11,7 @@ from Crypto.Cipher import AES, PKCS1_OAEP
 def Hash256(data):
     h = SHA256.new()
     h.update(data)
-    return h.digest()
+    return base64.b64encode(h.digest())
 
 # Parte de RSA
 def GetBytesFromFile(filename):
@@ -80,9 +80,3 @@ def RSADecrypt(encryptedData, privateKey):
     cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
     data = cipher_aes.decrypt_and_verify(ciphertext, tag)
     return data
-
-# KeyGenerator('llavePrivada.pem', 'llavePublica.pem')
-# data = GetBytesFromFile('MixColumn.xlsx')
-# RSAEncrypt(data, 'mensaje.bin', 'llavePublica.pem')
-# a = RSADecrypt('mensaje.bin', 'llavePrivada.pem')
-# print(a)
