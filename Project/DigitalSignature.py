@@ -2,8 +2,8 @@ import os
 import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
-from Crypto.Random import get_random_bytes
 from Crypto.Cipher import AES, PKCS1_OAEP
+import binascii
 
 # https://pycryptodome.readthedocs.io/en/latest/src/examples.html#generate-public-key-and-private-key
 
@@ -24,6 +24,7 @@ def GetBytesFromFile(filename):
 def privateKeyGenerator(privateKeyFile, key):
     script_directory = os.path.dirname(__file__)
     privateKey = f'{script_directory}/{privateKeyFile}'
+
     private_key = key.export_key()
     file_out = open(privateKey, "wb")
     file_out.write(private_key)
@@ -34,6 +35,7 @@ def publicKeyGenerator(publicKeyFile, key):
     publicKey = f'{script_directory}/{publicKeyFile}'
 
     public_key = key.publickey().export_key()
+
     file_out = open(publicKey, "wb")
     file_out.write(public_key)
     file_out.close()
@@ -43,40 +45,35 @@ def KeyGenerator(private, public):
     privateKeyGenerator(private, key)
     publicKeyGenerator(public, key)
 
+def GetData(filename):
+    script_directory = os.path.dirname(__file__)
+    filepath = f'{script_directory}/{filename}'
+    f = open(filepath, 'r')
+    data = f.readline() 
+    f.close()
+    return data
+
 def RSAEncrypt(data, encryptedFile, publicKey):
     script_directory = os.path.dirname(__file__)
     datafile = f'{script_directory}/{encryptedFile}'
 
+    encryptor = PKCS1_OAEP.new(RSA.import_key(open(f'{script_directory}/{publicKey}').read()))
+    encryptedData =   binascii.hexlify(encryptor.encrypt(data))
+
+    # print(f'tipo de encrypedData: {type(encryptedData)}\n')
+    # print(f'esto es encryptedData: {encryptedData}')
+
     file_out = open(datafile, "wb")
-
-    recipient_key = RSA.import_key(open(f'{script_directory}/{publicKey}').read())
-    session_key = get_random_bytes(16)
-
-    # Encrypt the session key with the public RSA key
-    cipher_rsa = PKCS1_OAEP.new(recipient_key)
-    enc_session_key = cipher_rsa.encrypt(session_key)
-
-    # Encrypt the data with the AES session key
-    cipher_aes = AES.new(session_key, AES.MODE_EAX)
-    ciphertext, tag = cipher_aes.encrypt_and_digest(data)
-    [ file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext) ]
+    file_out.write(encryptedData)
     file_out.close()
 
-def RSADecrypt(encryptedData, privateKey):
-    script_directory = os.path.dirname(__file__)
-    encrypted_data = f'{script_directory}/{encryptedData}'
+def RSADecrypt(encryptedData, privateKey):    
+    script_directory = os.path.dirname(__file__)    
+    encryptedData =  binascii.unhexlify(GetData(encryptedData))
 
-    file_in = open(encrypted_data, "rb")
-    private_key = RSA.import_key(open(f'{script_directory}/{privateKey}').read())
-
-    enc_session_key, nonce, tag, ciphertext = \
-    [ file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1) ]
-
-    # Decrypt the session key with the private RSA key
-    cipher_rsa = PKCS1_OAEP.new(private_key)
-    session_key = cipher_rsa.decrypt(enc_session_key)
-
-    # Decrypt the data with the AES session key
-    cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
-    data = cipher_aes.decrypt_and_verify(ciphertext, tag)
-    return data
+    decryptor = PKCS1_OAEP.new(RSA.import_key(open(f'{script_directory}/{privateKey}').read()))
+    decrypted = decryptor.decrypt(encryptedData)
+    # print(f'Este es el tipo de datos: {type(encryptedData)}')
+    # print(f'estos son los datos: {encryptedData}') 
+    # print(f'esto sale del decifrador: {decrypted}')
+    return decrypted
