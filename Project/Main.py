@@ -35,7 +35,7 @@ while True:
 	elif opcionMenu == "3":
 		fileGrades = input('Nombre del archivo de calificaciones: ')
 		privateKey = input('Nombre del archivo para la llave privada: ')
-		encyptedFile = input('Nombre del archivo de la firma digital: ')
+		encryptedFile = input('Nombre del archivo de la firma digital: ')
 		
 		grades = GetBytesFromFile(fileGrades)
 		HASHgrades = Hash256(grades)
