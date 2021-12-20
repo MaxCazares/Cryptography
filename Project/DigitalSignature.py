@@ -57,7 +57,7 @@ def RSAEncrypt(data, encryptedFile, publicKey):
     datafile = f'{script_directory}/{encryptedFile}'
 
     encryptor = PKCS1_OAEP.new(RSA.import_key(open(f'{script_directory}/{publicKey}').read()))
-    encryptedData =   binascii.hexlify(encryptor.encrypt(data))
+    encryptedData = binascii.hexlify(encryptor.encrypt(data))
 
     file_out = open(datafile, "wb")
     file_out.write(encryptedData)

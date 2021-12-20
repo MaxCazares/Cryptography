@@ -1,5 +1,7 @@
 import os
+import time 
 from DigitalSignature import *
+from AES_Excel import *
 
 def menu():
 	os.system('clear') 
@@ -44,10 +46,14 @@ while True:
 		
 		if HASHgrades == DecryptedGrades:
 			print('\nLas calificaciones NO sufrieron modificaciones')
+			time.sleep(3)
+			print('\nLlevando al siguiente menu ...')
+			time.sleep(3)
+			GradesMenu()
 			input("\nTeclea cualquier letra para continuar.")
 		else:
 			print('\nLas calificaciones SI sufrieron modificaciones')
 			input("\nTeclea cualquier letra para continuar ")
 	else:
-		print('\nFinalizando aplicación... ')
+		print('\nFinalizando aplicación ... ')
 		break
