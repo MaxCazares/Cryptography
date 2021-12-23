@@ -17,13 +17,6 @@ void multiplicationX(bitset<8> *bits){
     }
 }
 
-// 00100000
-// 00001000
-// 00011011
-
-// 10101010
-// 00000001
-// 10101010
 int main(){
 	string fx,gx;
     vector<bitset<N>> resParciales;
@@ -33,7 +26,7 @@ int main(){
 	    cin>>fx;
 	    cout<<"\nenter the binary coefficients of g(x): ";
 	    cin>>gx;   
-		 
+		
 	    bitset<N> bitsF(fx), bitsG(gx),aux,fxgx;
 	    
 	    for(int i = (N - 1); i > 0; i--){
@@ -56,5 +49,3 @@ int main(){
 	}
     return 0;
 }
-
-

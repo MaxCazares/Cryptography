@@ -35,13 +35,6 @@ def MultGF26(f, g):
     else:
         return a
 
-    # a = resP[0]
-    # fgx = BitArray('0b000000')
-    # for i in range(1, len(resP)):
-    #     fgx = fgx ^ (a ^ resP[i])
-    
-    # return fgx
-
 def CompleteZeros(f):
     a = ''
     if len(f) < 7:
@@ -64,25 +57,3 @@ def multiplicativeInverse(limite, a):
             if aux2 == '000001':
                 print(aux,a[0][j])
                 break
-
-# x^2+1    000101
-# x^2      000100
-# x^4+x^2  010100
-
-# x^3+1    001001
-# x^2      000100
-# x^5+x^2  100100
-
-# x+1      000011
-# x^2      000100
-# x^3+x^2  001100
-
-# x+1       000011
-# x+1       000011
-# x^2+2x+1  000101
-
-# f = input('\nenter the binary coefficients of f(x): ')
-# g = input('\nenter the binary coefficients of g(x): ')
-
-# fx, gx = BitArray('0b000011'), BitArray('0b000011')
-# print(f'\nthe product of f(x) * g(x) = {MultGF26(fx,gx).bin}')

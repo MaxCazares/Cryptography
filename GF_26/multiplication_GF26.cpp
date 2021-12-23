@@ -28,7 +28,7 @@ int main(){
     cin>>fx;
     cout<<"enter the binary coefficients of g(x)"<<endl;
     cin>>gx;   
-	 
+	
     bitset<6> bitsF(fx), bitsG(gx),aux,fxgx;
     
     for(int i = 5; i > 0; i--){//recorre todo el arreglo de indices
